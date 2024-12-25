@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameStack</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+         html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            height: 100%; 
+            flex-direction: column;
+            min-height: 100vh;
+            
+        }
+        .WholeContainer{
+            display: flex;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            flex-grow: 1;
+        }
+        .sidebar{
+            display: flex;
+            width: 25%;
+            background-color:#151515;
+            overflow-y: auto;
+            justify-content: center;
+            height: 100%;
+        }
+        .main_container{
+            display: flex;
+            width: 75%;
+            background-color:#000000;
+            overflow-y: auto;
+            flex-direction: column;
+            overflow-x: hidden; 
+            flex-grow: 1;
+
+        }
+        .navbar{
+            display: flex;
+            width: 100%;
+            min-height: 250px;
+            background-image: url('1348560.jpeg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            /* justify-content: flex-end; */
+            flex-direction: column;
+        }
+        .navbar_item{
+            list-style: none;
+            display: flex;
+            width: 100%;
+            justify-content:flex-end;
+            align-items: center;
+            padding-top: 10px;
+        }
+        .navbar ul li a{
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 1rem;
+            padding-right: 20px;
+        }
+        .main_item{
+            display: flex;
+            height: 100%;
+            align-items:flex-start;
+            justify-content:center;
+            flex-direction:column;
+            padding-left: 60px;
+            font-size: 1.5rem;
+            padding-top: 50px;
+        }
+        .main_item h2, .main_item h3 {
+            color: #ffffff; 
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); 
+            font-weight: bold;
+        }
+        .sidebar_items{
+            width: 100%;
+            color: #8d15e3;
+            text-align: center;
+            padding-top: 30px;
+            text-shadow: 0px 0px 10px rgba(110, 13, 180, 0.8);
+        }
+        .sidebar_items h2{
+            font-weight: lighter;
+            font-size: medium;
+        }
+        .content{
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            padding-top: 30px;
+        }
+        .add{
+            background-color:#8d15e3 ;
+            height: 40px;
+            width: 120px;
+            border: transparent;
+            color: #ffffff;
+            border-radius:5px;
+        }
+        .add:hover{
+            background-color: rgb(68, 26, 183);
+        }
+        .addform{
+            display: flex;
+            justify-content: center;
+            display: none;
+        }
+        .addform form{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-top: 40px;
+        }
+        .addform form input{
+            height: 40px;
+            width: 200px;
+        }
+        .addform form button{
+            height: 30px;
+            width: 100px;
+            background-color: #8d15e3;
+            border: transparent;
+            border-radius: 5px;
+        }
+        .addform form button:hover{
+            background-color:#441ab7 ;
+        }
+        .gamescollection{
+            display: flex;
+            /* height: 200px; */
+            color: #ffffff;
+            padding-left: 20px;
+            padding-top: 20px;
+            flex-direction: column;
+            gap: 20px;
+            height: 100%;
+            width: 100%;
+            letter-spacing: 1px;
+        }
+        .GameWishlist{
+            display:grid;
+            grid-template-rows: 1fr 1fr 1fr;
+            height: 300px;
+            grid-gap: 30px;
+            width: 100%;
+        }
+        #GameImg{
+            height: 250px;
+            width: 200px;
+            border-radius: 5px;
+        }
+        .line{
+            display: flex;
+            background-color: #8d15e3;
+            height: 2px;
+            margin-right: 40px;
+            margin-left: 20px;
+            
+        }
+        .EditGame {
+            display: none;
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center; 
+            align-items: center; 
+            color: #ffffff;
+            z-index: 1000; 
+        }
+
+        .EditContent {
+            background-color:#151515;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .EditContent form{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        .EditContent form input{
+            height: 40px;
+            width: 250px;
+            background-color: #000000;
+            border-color: #441ab7;
+            color: #ffffff;
+        }
+        .EditContent button{
+            height: 40px;
+            width: 100px;
+            background-color:#8d15e3;
+            border-radius: 5px;
+            border: transparent;
+            color: white;
+        }
+        .EditContent button:hover{
+            background-color: #441ab7;
+        }
+        .GamePost{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-weight: lighter;
+            width: 100%;
+        }
+        .Buttons{
+            display: flex;
+            gap: 100px;
+        }
+        .edit-btn{
+            height: 30px;
+            width: 50px;
+            background-color:#151515;
+            border: transparent;
+            border-radius: 5px;
+            font-weight: bold;
+            color: dimgray;
+        }
+        .delete-btn{
+            height: 30px;
+            width: 50px;
+            background-color:#151515;
+            border:transparent;
+            font-weight: bolder;
+            border-radius: 5px;
+            color: dimgray;
+        }
+        #Add-btn{
+            height: 30px;
+            width: 50px;
+            background-color:#151515;
+            border:transparent;
+            font-weight: bolder;
+            border-radius: 5px;
+            color: dimgray;
+            justify-content:right;
+        }
+        .delete-btn:hover{
+            color: #8d15e3;
+        }
+        .edit-btn:hover{
+            color: #8d15e3;
+        }
+        .WishedGame {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-weight: lighter;
+            width: 100%;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(141, 21, 227, 0.2); 
+            font-family: 'Roboto', sans-serif;
+        }
+                                    /* new items */
+        .NewGame {                                
+            display: none;
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center; 
+            align-items: center; 
+            color: #ffffff;
+            z-index: 1000; 
+        }
+
+        .NewContent {
+            background-color:#151515;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .NewContent form{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        .NewContent form input{
+            height: 40px;
+            width: 250px;
+            background-color: #000000;
+            border-color: #441ab7;
+            color: #ffffff;
+        }
+        .NewContent button{
+            height: 40px;
+            width: 100px;
+            background-color:#8d15e3;
+            border-radius: 5px;
+            border: transparent;
+            color: white;
+        }
+        .NewContent button:hover{
+            background-color: #441ab7;
+        }
+        footer {
+            width: 100%;
+            background-color: #151515;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-left p {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 20px;
+        }
+        .CloseBtn{
+            cursor: pointer;
+        }
+        .CloseBtnn{
+            cursor: pointer;
+        }
+        
+ </style>
+</head>
+<body>
+    <div class="WholeContainer">
+        <div class="sidebar">
+            <div class="sidebar_items">
+                <i class="fa-solid fa-gamepad"></i>
+                <h2>GAMESTACK</h2>
+                <div class="content">
+                    <button class="add" type="submit" id="addbutton">Add Yours -></button>
+                </div>
+                <div class="addform" id="addform">
+                    <form id="gameform">
+                        <input type="text" placeholder="Enter your Name" id="UserName">
+                        <input type="url" placeholder="Enter the url" id="GameUrl">
+                        <input type="text" placeholder="Enter the game title" id="GameTitle">
+                        <button onclick="submitGame()">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="main_container">
+            <nav class="navbar">
+                <ul class="navbar_item">
+                    <li><a href="#">Home</a></li>
+                </ul>
+                <div class="main_item">
+                    <h2>GAMESTACK</h2>
+                    <h3>Curate Your Game Collection</h3>
+                </div>
+            </nav>
+            <div class="gamescollection">
+                <h2>Wishlist</h2>
+                <div class="line">
+
+                </div>
+                <div class="GameWishlist" id="GameWishlist">
+
+                </div>
+            </div>
+                        <!-- new items -->
+            <div class="NewGame" id="NewGame">
+                <div class="NewContent">
+                    <span class="CloseBtnn">&times;</span>
+                    <form id="gameform1">
+                    <h2>ADD NEW GAME</h2>
+                    <input type="text" placeholder="Enter your Name" id="UserName1">
+                    <input type="url" placeholder="Enter the url" id="GameUrl">
+                    <input type="text" placeholder="Enter the game title" id="GameTitle">
+                    <button onclick="submitNewGame()">Submit</button>
+                </form>
+            </div>
+        </div>
+                        <!-- to this -->
+            <div class="EditGame" id="EditGame">
+                <div class="EditContent">
+                    <span class="CloseBtn">&times;</span>
+                    <form id="EditForm" onsubmit="EditGame()">
+                        <h2>Edit Your Collection</h2>
+                        <div class="FormGroup">
+                            <input type="text" id="EditUserName" class="form-control" required placeholder="Enter the New Username"> 
+                         </div>
+                        <div class="FormGroup">
+                            <input type="text" id="EditGameUrl" class="form-control" required placeholder="New Game Url"> 
+                        </div>
+                        <div class="FormGroup">
+                            <input id="EditGameTitle" class="form-control" required placeholder="New Game Title"></input> 
+                        </div>
+                        <div class="ButtonEdit">
+                            <button type="submit" class="btn">Update</button> 
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-left">
+                <p>&copy; 2024 GameStack.</p>
+            </div>
+        </div>
+    </div>
+    </footer>
+    
+    <script>
+        let CurrentEditId=null;
+        const addbutton=document.getElementById('addbutton');
+        const addform=document.getElementById('addform');
+
+        addbutton.addEventListener('click',()=>{
+            if(addform.style.display==='none' || addform.style.display===''){
+                addform.style.display='flex';
+            }
+            else{
+                addform.style.display='none';
+            }
+        });
+        async function submitGame() {
+            const UserName=document.getElementById('UserName').value;
+            const GameUrl=document.getElementById('GameUrl').value;
+            const GameTitle=document.getElementById('GameTitle').value;
+            const Response=await fetch('http://localhost:4000/api/wishlist',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({UserName,GameUrl,GameTitle})
+            });
+            if (Response.ok){
+                document.getElementById('UserName').value='';
+                document.getElementById('GameUrl').value='';
+                document.getElementById('GameTitle').value='';
+                FetchGame();
+            }
+            else{
+                console.error('Failed to Create'.Response.statusText);
+            }
+        }
+        async function FetchGame(){
+            const Response=await fetch('http://localhost:4000/api/wishlist');
+            const Games=await Response.json();
+            const GameContainer=document.getElementById('GameWishlist');
+            GameContainer.innerHTML='';
+            Games.forEach(Game => {
+                const GameDiv=document.createElement('div');
+                GameDiv.className='WishedGame';
+                GameDiv.innerHTML=`<div class="GamePost"><h2>${Game.UserName}</h2> <img  id="GameImg"src="${Game.GameUrl}" alt=""> <h3>${Game.GameTitle}</h3><div class="Buttons"><button class="edit-btn" onclick="OpenEditGame('${Game._id}', '${Game.UserName}', '${Game.GameUrl}', '${Game.GameTitle}')"><i class="fa-solid fa-pen-to-square"></i></button><button class="delete-btn" onclick="DeleteGame('${Game._id}')"><i class="fa-solid fa-trash"></i></button><button id="Add-btn" onclick="OpenNewGame()">Add</button></div></div>`;
+                GameContainer.appendChild(GameDiv);
+            });
+        }
+                    // new item
+        async function OpenNewGame() {
+            document.getElementById('NewGame').style.display="Flex";
+        }
+//         async function submitNewGame() {
+//     const username = document.getElementById('username').value;  // The username entered by the user
+//     const gameTitle = document.getElementById('gameTitle').value;  // The title of the game
+//     const gameUrl = document.getElementById('gameUrl').value;  // The URL to the game's image
+
+//     // Make POST request to add the game
+//     const response = await fetch('http://localhost:3000/api/add-game', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ username, gameTitle, gameUrl })  // Sending the data as JSON
+//     });
+
+//     const data = await response.json();
+
+//     if (response.ok) {
+//         alert('Game added successfully!');
+//         // Optionally, you can update the UI with the newly added game
+//     } else {
+//         alert('Error: ' + data.message);  // Show the error message returned from the server
+//     }
+// }
+
+                    //to this
+        async function OpenEditGame(id,UserName,GameUrl,GameTitle) {
+            CurrentEditId=id;
+            document.getElementById('EditUserName').value=UserName;
+            document.getElementById('EditGameUrl').value=GameUrl;
+            document.getElementById('EditGameTitle').value=GameTitle;
+            document.getElementById('EditGame').style.display="Flex";
+        }
+        async function EditGame() {
+            const UserName=document.getElementById('EditUserName').value;
+            const GameUrl=document.getElementById('EditGameUrl').value;
+            const GameTitle=document.getElementById('EditGameTitle').value;
+            if(CurrentEditId){
+                const Response=await fetch(`http://localhost:4000/api/wishlist/${CurrentEditId}`,{
+                    method:'PUT',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({UserName,GameUrl,GameTitle})
+                });
+                if(Response.ok){
+                    FetchGame();
+                    CloseEdit();
+
+                }
+                else{
+                    console.error("Failed to update:",Response.statusText);
+                }
+                
+            }
+        }
+        document.querySelector('.CloseBtn').onclick = CloseEdit;
+        function CloseEdit() {
+            document.getElementById('EditGame').style.display = 'none';
+        }
+        async function DeleteGame(id) {
+            const Response=await fetch(`http://localhost:4000/api/wishlist/${id}`,{
+                method:'DELETE'
+            });
+            if(Response.ok){
+                FetchGame();
+            }
+            else{
+                console.error("Failed to delete:",Response.statusText);
+            }
+
+        }
+                //new item
+        function CloseNewGame() {
+            document.getElementById('NewGame').style.display = 'none';
+        }
+        document.querySelector('.CloseBtnn').onclick = CloseNewGame;
+
+                //to this
+        window.onload = function() {
+            FetchGame(); 
+        };
+
+    </script>
+</body>
+</html>
