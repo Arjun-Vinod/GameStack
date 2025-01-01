@@ -16,12 +16,12 @@ app.set("view engine");
 app.set("views",path.join(__dirname,"views"))
 
 
-const PORT=process.env.PORT||4000;
+
 app.get('/',(req,res)=>{
     res.sendFile(path.join(__dirname,'views','index.html'))
 });
 
-
+const PORT=process.env.PORT||4000;
 app.listen(PORT,()=>{
-    console.log(`Server is running omn the port ${PORT}`);
+    console.log(`Server is running on the port ${PORT}`);
 })
