@@ -454,7 +454,7 @@
             const UserName=document.getElementById('UserName').value;
             const GameUrl=document.getElementById('GameUrl').value;
             const GameTitle=document.getElementById('GameTitle').value;
-            const Response=await fetch('http://localhost:4000/api/wishlist',{
+            const Response=await fetch('https://gamestack-gamewishlist.onrender.com/api/wishlist',{
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json'
@@ -472,7 +472,7 @@
             }
         }
         async function FetchGame(){
-            const Response=await fetch('http://localhost:4000/api/wishlist');
+            const Response=await fetch('https://gamestack-gamewishlist.onrender.com/api/wishlist');
             const Games=await Response.json();
             const GameContainer=document.getElementById('GameWishlist');
             GameContainer.innerHTML='';
@@ -524,7 +524,7 @@
             const GameUrl=document.getElementById('EditGameUrl').value;
             const GameTitle=document.getElementById('EditGameTitle').value;
             if(CurrentEditId){
-                const Response=await fetch(`http://localhost:4000/api/wishlist/${CurrentEditId}`,{
+                const Response=await fetch(`https://gamestack-gamewishlist.onrender.com/api/wishlist/${CurrentEditId}`,{
                     method:'PUT',
                     headers:{
                         'Content-Type':'application/json'
@@ -547,7 +547,7 @@
             document.getElementById('EditGame').style.display = 'none';
         }
         async function DeleteGame(id) {
-            const Response=await fetch(`http://localhost:4000/api/wishlist/${id}`,{
+            const Response=await fetch(`https://gamestack-gamewishlist.onrender.com/api/wishlist/${id}`,{
                 method:'DELETE'
             });
             if(Response.ok){
