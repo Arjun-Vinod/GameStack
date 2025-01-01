@@ -5,7 +5,7 @@ const app=express();
 const cors=require('cors');
 require('dotenv').config();
 mongoose.connect(process.env.DB_URI);
-const cors=require('cors');
+app.use(cors());
 
 const itemrouter=require('./routes/route');
 app.use('/api',itemrouter);
